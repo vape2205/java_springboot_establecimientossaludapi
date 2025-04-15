@@ -48,9 +48,18 @@ public class EstablecimientoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<EstablecimientoDTO>> obtenerTodos() {
-        var establecimientos = establecimientoService.getAll();
-        return ResponseEntity.ok(establecimientos);
+    public ResponseEntity<List<EstablecimientoDTO>> obtenerTodos(@RequestParam(name = "page",defaultValue = "0") Integer page,
+    @RequestParam(name = "size",defaultValue = "20") Integer size) {
+        var lista = establecimientoService.getAll(page, size);
+        return ResponseEntity.ok(lista);
+    }
+
+    @GetMapping("/buscar/categoria/{categoria}")
+    public ResponseEntity<List<EstablecimientoDTO>> buscarPorCategoria(@PathVariable String categoria,
+        @RequestParam(name = "page",defaultValue = "0") Integer page,
+        @RequestParam(name = "size",defaultValue = "20") Integer size) {
+        var lista = establecimientoService.findByCategoria(categoria, page,size);
+        return ResponseEntity.ok(lista);
     }
 
     @PutMapping("/{id}")

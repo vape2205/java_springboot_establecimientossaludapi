@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,8 +29,9 @@ public class EstablecimientoServiceImpl implements EstablecimientoService {
     private EstablecimientoMapper establecimientoMapper;
 
     @Override
-    public List<EstablecimientoDTO> getAll() {
-        var list = establecimientoRepository.findAll();
+    public List<EstablecimientoDTO> getAll(Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
+        var list = establecimientoRepository.findAll(pageable).toList();
         return establecimientoMapper.toDTOList(list);
     }
 
@@ -70,5 +73,12 @@ public class EstablecimientoServiceImpl implements EstablecimientoService {
         } catch (IOException e) {
             throw new RuntimeException("fail to store csv data: " + e.getMessage());
         }
+    }
+
+    @Override
+    public List<EstablecimientoDTO> findByCategoria(String categoria, Integer page, Integer size) {
+        PageRequest pageable = PageRequest.of(page, size);
+        var list = establecimientoRepository.findByCategoria(categoria, pageable);
+        return establecimientoMapper.toDTOList(list);
     }
 }
