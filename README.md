@@ -20,6 +20,8 @@ Caracteristicas
 
 <p>1. Agregar archivo de environment</p>
 
+Crear un archivo .env en la raiz del proyecto
+
 ```
 # Variables de entorno para la bd 
 POSTGRES_DB=db_establecimientos 
